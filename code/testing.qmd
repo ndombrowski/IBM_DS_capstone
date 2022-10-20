@@ -1,0 +1,46 @@
+
+```{python}
+import pandas as pd
+import dash
+from dash import html
+from dash import dcc
+from dash.dependencies import Input, Output
+import plotly.express as px
+import matplotlib.pyplot as plt
+```
+
+```{python}
+spacex_df = pd.read_csv("../data/spacex_launch_dash.csv")
+max_payload = spacex_df['Payload Mass (kg)'].max()
+min_payload = spacex_df['Payload Mass (kg)'].min()
+spacex_df.head()
+```
+# TASK 2: Add a pie chart to show the total successful launches count for all sites
+# If a specific launch site was selected, show the Success vs. Failed counts for the site
+
+```{python}
+spacex_df.columns
+```
+
+```{python}
+filtered_df = spacex_df[spacex_df['Launch Site'] == 'CCAFS LC-40']
+```
+
+```{python}
+filtered_df2=spacex_df[spacex_df['Launch Site']== 'CCAFS LC-40']
+filtered_df2=filtered_df.groupby(['Launch Site','class']).size().reset_index(name='counts')
+filtered_df2
+```
+
+
+```{python}
+fig =px.scatter(filtered_df, y = 'class', x= 'Payload Mass (kg)', color = 'Booster Version Category', title = 'Correlation between payload success for all sites' )
+fig.show()
+```
+
+
+
+
+
+
+
